@@ -12,7 +12,7 @@ public class PlayerController : MonoBehaviour
     }
     void Update()
     {
-        float hInput = Input.GetAxisRaw("Horizontal");
+        float hInput = Input.GetAxisRaw("Horizontal"); // nyers adat
         float vInput = Input.GetAxisRaw("Vertical");
 
         Vector3 direction = new Vector3(hInput, 0, vInput);
