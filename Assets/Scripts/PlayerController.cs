@@ -20,4 +20,18 @@ public class PlayerController : MonoBehaviour
         Vector3 velocity = direction * speed;
         transform.position += velocity * Time.deltaTime;
     }
+
+    public int CountOfDividers(int n)
+    {
+        int darab = 0;
+        for (int i = 1; i <= n; i++)
+        {
+            if (n % i == 0)
+            {
+                darab++;
+                Debug.Log(i);
+            }
+        }
+        return darab;
+    }
 }
