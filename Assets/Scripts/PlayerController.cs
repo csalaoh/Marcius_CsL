@@ -3,6 +3,8 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] float speed = 5;
+    [SerializeField] float angularVelocity = 100;
+    [SerializeField] Transform cameaTransform;
 
     void Start()
     {
@@ -12,26 +14,28 @@ public class PlayerController : MonoBehaviour
     }
     void Update()
     {
-        float hInput = Input.GetAxisRaw("Horizontal"); // nyers adat
-        float vInput = Input.GetAxisRaw("Vertical");
+        float hInput = Input.GetAxisRaw("Horizontal"); // Vízszintes bemenet
+        float vInput = Input.GetAxisRaw("Vertical"); // Függõleges bemenet
 
-        Vector3 direction = new Vector3(hInput, 0, vInput);
+        Vector3 cameraRight = cameaTransform.right * vInput;
+        Vector3 cameraForward = cameaTransform.forward * hInput;
 
-        Vector3 velocity = direction * speed;
-        transform.position += velocity * Time.deltaTime;
-    }
+        cameraForward.y = 0;
+        cameraForward.Normalize();
+        Vector3 direction = cameraRight + cameraForward;
 
-    public int CountOfDividers(int n)
-    {
-        int darab = 0;
-        for (int i = 1; i <= n; i++)
+
+        direction.Normalize(); // Irány normaizálása
+
+        Vector3 velocity = direction * speed; // Sebesség vektor
+        transform.position += velocity * Time.deltaTime;  //Pozíció frissítése
+
+        if (direction != Vector3.zero)
+   
         {
-            if (n % i == 0)
-            {
-                darab++;
-                Debug.Log(i);
-            }
+            Quaternion targetRotaion = Quaternion.LookRotation(direction);
+
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotaion, angularVelocity * Time.deltaTime);
         }
-        return darab;
     }
 }
